@@ -844,7 +844,10 @@ MonoBehaviour:
   almacenObjetos: {fileID: 491931557}
   trailBehaviour: {fileID: 1211214868}
   touchposition: {x: 0, y: 0}
-  swipeThreshold: 100
+  swipePosition: {x: 0, y: 0}
+  swipeThreshold: 3
+  startTouchPosition: {x: 0, y: 0}
+  endTouchPosition: {x: 0, y: 0}
 --- !u!114 &914145804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,6 +921,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 54c0384c-c677-47cf-b666-e45f1af680d5
     m_ActionName: Game/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 914145803}
+        m_TargetAssemblyTypeName: TouchController, Assembly-CSharp
+        m_MethodName: OnSwipe
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2965e5dd-8182-4e52-ae20-4c01448a3597
+    m_ActionName: Game/Swipe[/Device Simulator Touchscreen/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Touch
   m_DefaultActionMap: Game

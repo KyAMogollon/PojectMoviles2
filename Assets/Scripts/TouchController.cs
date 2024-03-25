@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UIElements;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class TouchController : MonoBehaviour
 {
@@ -14,11 +15,12 @@ public class TouchController : MonoBehaviour
     private int index=0;
 
     public Vector2 touchposition;
+    public Vector2 swipePosition;
 
     public float swipeThreshold = 3f; // Umbral del swipe
 
-    private Vector2 startTouchPosition;
-    private Vector2 endTouchPosition;
+    public Vector2 startTouchPosition;
+    public Vector2 endTouchPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -84,25 +86,14 @@ public class TouchController : MonoBehaviour
         //    }
         //}
     }
-    void RaycastDestroy(Vector2 pos2)
+    void RaycastDestroy()
     {
-        RaycastHit2D hit = Physics2D.Raycast(pos2, Vector2.zero);
-        if (hit.collider == null)
-        {
             for (int i = 0; i < almacenObjetos.transform.childCount; i++)
             {
                 Destroy(almacenObjetos.transform.GetChild(i).gameObject);
             }
-        }
+  
     }
-    //void MoveFigure(Vector2 pos2)
-    //{
-    //    RaycastHit2D hit = Physics2D.Raycast(pos2, Vector2.zero);
-    //    if (hit.collider != null)
-    //    {
-    //        hit.collider.gameObject.transform.position = new Vector2(pos2.x, pos2.y);
-    //    }
-    //}
     //void RaycastDetected(Touch touch)
     //{
     //    Vector2 pos1 = Camera.main.ScreenToWorldPoint(touch.position);
@@ -119,6 +110,7 @@ public class TouchController : MonoBehaviour
     //        Instantiate(objeto[index], pos1, Quaternion.identity, almacenObjetos.transform);
     //    }
     //}
+
     public void OnMoveFigure(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -134,27 +126,84 @@ public class TouchController : MonoBehaviour
     }
     public void OnPosition(InputAction.CallbackContext position)
     {
-        Vector2 touchPosition = position.ReadValue<Vector2>();
-        touchposition = Camera.main.ScreenToWorldPoint(touchPosition);
+        Vector2 touchPosition1 = position.ReadValue<Vector2>();
+        touchposition = Camera.main.ScreenToWorldPoint(touchPosition1);
+        swipePosition = Camera.main.ScreenToWorldPoint(touchPosition1);
     }
     public void OnTouch(InputAction.CallbackContext value)
     {
-        Debug.Log(value);
         RaycastHit2D hit = Physics2D.Raycast(touchposition, Vector2.zero);
-        if (hit.collider != null)
-        {
-                //if (touch.tapCount == 2)
-                //{
-                //    Destroy(hit.collider.gameObject);
-                //}
-        }
-        else
+        if (hit.collider == null)
         {
             if (touchposition != Vector2.zero)
             {
                 Instantiate(objeto[index], touchposition, Quaternion.identity, almacenObjetos.transform);
             }
+            
         }
+        else
+        {
+            //if (touch.tapCount == 2)
+            //{
+            //    Destroy(hit.collider.gameObject);
+            //}
+        }
+
+
+    }
+    public void OnSwipe(InputAction.CallbackContext swipe)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(swipePosition, Vector2.zero);
+        if (swipe.phase == InputActionPhase.Started)
+        {
+            startTouchPosition = swipePosition;
+        }
+        if (swipe.phase == InputActionPhase.Canceled)
+        {
+            endTouchPosition = swipePosition;
+            //if (hit.collider == null)
+            //{
+                float swipeMagnitude = endTouchPosition.x - startTouchPosition.x;
+                float swipeAbsolutePosition = Mathf.Abs(swipeMagnitude);
+                //if (swipe.phase == InputActionPhase.Performed)
+                //{
+
+                    Debug.Log(swipeAbsolutePosition);
+                    Debug.Log("Umbral " + swipeThreshold);
+
+                    if (swipeAbsolutePosition >= swipeThreshold)
+                    {
+                        if(hit.collider == null)
+                        {
+                            Debug.Log("entro a la condicion");
+                            trailBehaviour.transform.position = swipePosition;
+                            RaycastDestroy();
+                        }
+                        
+                    }
+                //}
+            //}
+        }
+        //if (hit.collider == null)
+        //{
+        //    float swipeMagnitude = endTouchPosition.x - startTouchPosition.x;
+        //    float swipeAbsolutePosition = Mathf.Abs(swipeMagnitude);
+        //    if (swipe.phase == InputActionPhase.Performed)
+        //    {
+                
+        //        Debug.Log(swipeAbsolutePosition);
+        //        Debug.Log("Umbral " + swipeThreshold);
+        //        //Debug.Log("StartPosition:" + startTouchPosition);
+        //        //Debug.Log("EndPosition:" + endTouchPosition);
+
+        //        if (swipeAbsolutePosition >= swipeThreshold)
+        //        {
+        //            Debug.Log("entro a la condicion");
+        //            trailBehaviour.transform.position = swipePosition;
+        //            RaycastDestroy();
+        //        }
+        //    }
+        //}
 
     }
     public void CircleFigure()
