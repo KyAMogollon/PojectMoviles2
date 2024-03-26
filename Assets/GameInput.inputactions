@@ -15,7 +15,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Position",
+                    "name": "TouchPosition",
                     "type": "Value",
                     "id": "ed6741fc-f2be-46f7-9f57-4bd64f6a00c6",
                     "expectedControlType": "Vector2",
@@ -35,11 +35,20 @@
                 {
                     "name": "Swipe",
                     "type": "Button",
-                    "id": "2965e5dd-8182-4e52-ae20-4c01448a3597",
+                    "id": "85d7e262-8635-4b17-a569-f6c74204603b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PositionSwipe",
+                    "type": "Value",
+                    "id": "a5cc6880-a0b5-4e19-bba3-eaca27aa83bd",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -61,7 +70,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch",
-                    "action": "Position",
+                    "action": "TouchPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -78,12 +87,23 @@
                 },
                 {
                     "name": "",
-                    "id": "101c83eb-332d-483e-9f12-26e5f507faa6",
+                    "id": "1cb09813-e656-451b-aa99-2f54034702d8",
                     "path": "<Touchscreen>/Press",
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch",
                     "action": "Swipe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2027df59-0cbc-4aac-9945-2ded094f3408",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "PositionSwipe",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
